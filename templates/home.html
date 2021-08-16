@@ -1,0 +1,45 @@
+<body onload="loaddata()"></body>
+<h1> Home </h1>
+<div id='data'>
+
+</div>
+<script>
+    function loaddata() {
+   
+        var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function() { 
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+            printdata(xmlHttp.responseText);
+    }
+    xmlHttp.open("GET", 'http://127.0.0.1:8000/api/v1/getdata/', true); // true for asynchronous 
+    xmlHttp.send(null);
+}
+
+            
+function printdata(data){   
+    var target = document.querySelector('#data');
+    const obj = JSON.parse(data);
+    obj.forEach((element, index) =>{
+
+        var div = document.createElement('div');
+        div.setAttribute("id", 'dev'+index);
+        
+        div.innerHTML = element.CANDIDATE_NAME
+        target.parentNode.insertBefore( div, target );
+        element.experience.forEach(exp=>{
+            var target2 = document.querySelector('#div'+index);
+            var p1 = document.createElement('p');
+            p1.innerHTML = exp.JOB_TITLE
+            var p2 = document.createElement('p');
+            p1.innerHTML = exp.START_DATE
+            var p2 = document.createElement('p');
+            p1.innerHTML = element.END_DATE
+            target2.parentNode.insertBefore( p1, target2 );
+            target2.parentNode.insertBefore( p2, target2 );
+            target2.parentNode.insertBefore( p2, target2 );
+        })
+        
+    })
+}
+    
+</script>
